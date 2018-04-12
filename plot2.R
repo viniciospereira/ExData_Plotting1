@@ -21,7 +21,7 @@ dateDownloaded <- date()
 # Reads the file "household_power_consumption.txt" inside the file "exdata-data-household_power_consumption.zip".
 zipFilePath <- "./data/exdata-data-household_power_consumption.zip"
 dataFileTxtPath <- "household_power_consumption.txt"
-houseHoldPower <- read.table(unz(zipFilePath, dataFileTxtPath), header = TRUE, sep = ";", stringsAsFactors = FALSE)
+houseHoldPower <- read.table(unz(zipFilePath, dataFileTxtPath), header = TRUE, sep = ";", stringsAsFactors = FALSE, na.strings = "?")
 
 # Converts the variable "Time" to date format.
 houseHoldPower$Time <- strptime(paste(houseHoldPower$Date, houseHoldPower$Time), format = "%d/%m/%Y %H:%M:%S")
