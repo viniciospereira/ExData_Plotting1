@@ -23,6 +23,9 @@ zipFilePath <- "./data/exdata-data-household_power_consumption.zip"
 dataFileTxtPath <- "household_power_consumption.txt"
 houseHoldPower <- read.table(unz(zipFilePath, dataFileTxtPath), header = TRUE, sep = ";", stringsAsFactors = FALSE)
 
+# Converts the variable "Time" to date format.
+houseHoldPower$Time <- strptime(paste(houseHoldPower$Date, houseHoldPower$Time), format = "%d/%m/%Y %H:%M:%S")
+
 # Converts the variable "Date" to date format.
 houseHoldPower$Date <- strptime(houseHoldPower$Date, format = "%d/%m/%Y")
 
@@ -36,10 +39,10 @@ houseHoldPower$Global_active_power <- as.numeric(houseHoldPower$Global_active_po
 # Plotting the graph.
 
 # Opens PNG file.
-png(filename = "plot1.png", width = 480, height = 480)
+png(filename = "plot2.png", width = 480, height = 480)
 
-# Plots the histogram.
-hist(houseHoldPower$Global_active_power, main = "Global Active Power", xlab = "Global Active Power (kilowatts)", col = "red")
+# Plots the graph.
+plot(houseHoldPower$Time, houseHoldPower$Global_active_power, type = "l", xlab = "", ylab="Global Active Power (kilowatts)")
 
 # Closes the file.
 dev.off()

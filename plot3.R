@@ -23,23 +23,31 @@ zipFilePath <- "./data/exdata-data-household_power_consumption.zip"
 dataFileTxtPath <- "household_power_consumption.txt"
 houseHoldPower <- read.table(unz(zipFilePath, dataFileTxtPath), header = TRUE, sep = ";", stringsAsFactors = FALSE)
 
+# Converts the variable "Time" to date format.
+houseHoldPower$Time <- strptime(paste(houseHoldPower$Date, houseHoldPower$Time), format = "%d/%m/%Y %H:%M:%S")
+
 # Converts the variable "Date" to date format.
 houseHoldPower$Date <- strptime(houseHoldPower$Date, format = "%d/%m/%Y")
 
 # Subsets observations made in 2007-02-01 and 2007-02-02.
 houseHoldPower <- subset(houseHoldPower, Date == "2007-02-01" | Date == "2007-02-02")
 
-# Converts the variable Global_active_power to numeric.
-houseHoldPower$Global_active_power <- as.numeric(houseHoldPower$Global_active_power)
+# Converts the variables Sub_metering_X to numeric.
+houseHoldPower$Sub_metering_1 <- as.numeric(houseHoldPower$Sub_metering_1)
+houseHoldPower$Sub_metering_2 <- as.numeric(houseHoldPower$Sub_metering_2)
+houseHoldPower$Sub_metering_3 <- as.numeric(houseHoldPower$Sub_metering_3)
 
 
 # Plotting the graph.
 
 # Opens PNG file.
-png(filename = "plot1.png", width = 480, height = 480)
+png(filename = "plot3.png", width = 480, height = 480)
 
-# Plots the histogram.
-hist(houseHoldPower$Global_active_power, main = "Global Active Power", xlab = "Global Active Power (kilowatts)", col = "red")
+# Plots the graph.
+plot(houseHoldPower$Time, houseHoldPower$Sub_metering_1, type = "l", xlab = "", ylab="Energy sub metering")
+lines(houseHoldPower$Time, houseHoldPower$Sub_metering_2, type = "l", col = "red")
+lines(houseHoldPower$Time, houseHoldPower$Sub_metering_3, type = "l", col = "blue")
+legend("topright", col = c("black","red","blue"), c("Sub_metering_1","Sub_metering_2", "Sub_metering_3"), lty = c(1, 1, 1), lwd = c(1, 1, 1))
 
 # Closes the file.
 dev.off()
